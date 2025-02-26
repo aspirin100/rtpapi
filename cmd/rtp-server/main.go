@@ -13,5 +13,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(cfg)
+	fmt.Println("current config", cfg)
+
 }
