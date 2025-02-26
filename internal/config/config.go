@@ -13,7 +13,7 @@ const (
 
 var (
 	ErrNoRtp         = errors.New("rtp flag must be set")
-	ErrWrongRtpValue = errors.New("rtp must be (>= 0) or ( <= 1)")
+	ErrWrongRtpValue = errors.New("rtp must be (0 < rtp <= 1)")
 )
 
 type Config struct {
