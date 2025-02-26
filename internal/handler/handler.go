@@ -28,7 +28,7 @@ func New(generator Generator) *Handler {
 	router.GET("/get", handler.Generate)
 
 	server := http.Server{
-		Addr:    "localhost:64333",
+		Addr:    "0.0.0.0:64333",
 		Handler: router,
 	}
 

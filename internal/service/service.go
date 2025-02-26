@@ -2,6 +2,7 @@ package service
 
 import (
 	"math/rand"
+	"time"
 
 	"github.com/aspirin100/rtpapi/internal/config"
 )
@@ -12,25 +13,40 @@ const (
 )
 
 type Service struct {
-	Rtp *float32
+	Rtp       *float32
+	generator *rand.Rand
 }
 
 func New(cfg *config.Config) *Service {
+	r := rand.New(rand.NewSource(time.Now().Unix()))
+
 	return &Service{
-		Rtp: &cfg.Rtp,
+		Rtp:       &cfg.Rtp,
+		generator: r,
 	}
 }
 
 func (s *Service) GenerateMultiplier() float32 {
-	const lowMultiplier = 10
+	u := s.generator.Float32()
 
-	u := rand.Float64()
-
-	randVal := float32(rand.Float64())
-
-	if u <= float64(*s.Rtp) {
-		return MinValue + randVal*(MaxValue-MinValue)
+	// generate high mutipliers
+	if *s.Rtp == 1.0 {
+		return MinValue + s.generator.Float32()*(MaxValue-MinValue)
 	}
 
-	return MinValue + randVal*lowMultiplier
+	threshold := MinValue + (*s.Rtp)*(MaxValue-MinValue)
+
+	if u <= *s.Rtp {
+		return threshold + s.generator.Float32()*(MaxValue-threshold)
+	}
+
+	// generate small multiplier
+	return MinValue + s.generator.Float32()*(threshold-MinValue)
+}
+
+// for test
+func (s *Service) ChangeSeed() {
+	r := rand.New(rand.NewSource(time.Now().Unix()))
+
+	s.generator = r
 }
