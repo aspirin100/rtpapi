@@ -6,8 +6,14 @@ import (
 	"fmt"
 )
 
+const (
+	LowBarrier  float32 = 0
+	HighBarrier float32 = 1
+)
+
 var (
-	ErrNoRtp = errors.New("rtp flag must be set")
+	ErrNoRtp         = errors.New("rtp flag must be set")
+	ErrWrongRtpValue = errors.New("rtp must be (>= 0) or ( <= 1)")
 )
 
 type Config struct {
@@ -18,6 +24,10 @@ func New() (*Config, error) {
 	rtp, err := fetchMultiplierFlag()
 	if err != nil {
 		return nil, fmt.Errorf("configuation fail: %w", err)
+	}
+
+	if *rtp < LowBarrier || *rtp > HighBarrier {
+		return nil, ErrWrongRtpValue
 	}
 
 	return &Config{
