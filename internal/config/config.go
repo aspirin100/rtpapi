@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	LowBarrier  float32 = 0
-	HighBarrier float32 = 1
+	MinValue float32 = 0
+	MaxValue float32 = 1
 )
 
 var (
@@ -17,7 +17,9 @@ var (
 )
 
 type Config struct {
-	Rtp float32
+	Rtp      float32
+	MinValue float32
+	MaxValue float32
 }
 
 func New() (*Config, error) {
@@ -26,12 +28,14 @@ func New() (*Config, error) {
 		return nil, fmt.Errorf("configuation fail: %w", err)
 	}
 
-	if *rtp < LowBarrier || *rtp > HighBarrier {
+	if *rtp <= MinValue || *rtp > MaxValue {
 		return nil, ErrWrongRtpValue
 	}
 
 	return &Config{
-		Rtp: *rtp,
+		Rtp:      *rtp,
+		MinValue: MinValue,
+		MaxValue: MaxValue,
 	}, nil
 }
 

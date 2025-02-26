@@ -10,7 +10,7 @@ import (
 )
 
 type Generator interface {
-	GenerateMultiplier() (*float32, error)
+	GenerateMultiplier() float32
 }
 
 type Handler struct {
@@ -55,17 +55,12 @@ func (h *Handler) Shutdown(ctx context.Context) error {
 }
 
 func (h *Handler) Generate(ctx *gin.Context) {
-	mp, err := h.generator.GenerateMultiplier()
-	if err != nil {
-		ctx.Status(http.StatusInternalServerError)
-
-		return
-	}
+	mp := h.generator.GenerateMultiplier()
 
 	resp := struct {
 		Result *float32 `json:"result"`
 	}{
-		Result: mp,
+		Result: &mp,
 	}
 
 	ctx.JSON(http.StatusOK, resp)
