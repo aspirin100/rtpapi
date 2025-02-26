@@ -2,22 +2,20 @@ package service
 
 import (
 	"math/rand"
+)
 
-	"github.com/aspirin100/rtpapi/internal/config"
+const (
+	MinValue float32 = 1
+	MaxValue float32 = 10000
 )
 
 type Service struct {
-	MinValue *float32
-	MaxValue *float32
 }
 
-func New(cfg *config.Config) *Service {
-	return &Service{
-		MinValue: &cfg.MinValue,
-		MaxValue: &cfg.MaxValue,
-	}
+func New() *Service {
+	return &Service{}
 }
 
 func (s *Service) GenerateMultiplier() float32 {
-	return *s.MinValue + rand.Float32()*(*s.MaxValue-*s.MinValue)
+	return MinValue + rand.Float32()*(MaxValue-MinValue)
 }

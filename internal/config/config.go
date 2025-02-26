@@ -17,9 +17,7 @@ var (
 )
 
 type Config struct {
-	Rtp      float32
-	MinValue float32
-	MaxValue float32
+	Rtp float32
 }
 
 func New() (*Config, error) {
@@ -33,9 +31,7 @@ func New() (*Config, error) {
 	}
 
 	return &Config{
-		Rtp:      *rtp,
-		MinValue: MinValue,
-		MaxValue: MaxValue,
+		Rtp: *rtp,
 	}, nil
 }
 
