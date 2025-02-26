@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/aspirin100/rtpapi/internal/config"
-	"github.com/aspirin100/rtpapi/internal/server/handler"
-	"github.com/aspirin100/rtpapi/internal/server/service"
+	"github.com/aspirin100/rtpapi/internal/handler"
+	"github.com/aspirin100/rtpapi/internal/service"
 )
 
 const (
@@ -26,7 +26,7 @@ func main() {
 
 	fmt.Println("current config", cfg)
 
-	srv := service.New()
+	srv := service.New(cfg)
 
 	application := handler.New(srv)
 
